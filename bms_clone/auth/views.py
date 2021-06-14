@@ -21,12 +21,6 @@ def get_tokens_for_user(user):
     return str(refresh), str(refresh.access_token)
 
 
-class TestView(APIView):
-
-    def get(self, request):
-        return Response({'info': 'Test View'})
-
-
 class UserSignupView(APIView):
     """
     View for sign up.
@@ -79,3 +73,11 @@ class UserLoginView(APIView):
                 return Response({'info': 'Successful login', 'refresh': refresh, 'access': access})
             return Response({'error': 'User not verified'})
         return Response({'error': 'Invalid Credentials'})
+
+
+class HomeView(APIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        return Response({'info': 'Welcome to BMS'})
