@@ -55,14 +55,14 @@ class UserSignupSerializer(serializers.ModelSerializer):
 
         return data
 
-#
-# # Serializer for User log in
-# class UserLoginSerializer(serializers.ModelSerializer):
-#     password = serializers.CharField(
-#         required=True,
-#         style={'input_type': 'password'},
-#     )
-#
-#     class Meta:
-#         model = User
-#         fields = ('username', 'password',)
+
+# Serializer for User log in
+class UserLoginSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        required=True,
+        style={'input_type': 'password'},
+    )
+
+    class Meta:
+        model = User
+        fields = ('username', 'password',)
