@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    # 'auth',
+    'mbs',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -89,7 +91,7 @@ WSGI_APPLICATION = "service_config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "bms",
+        "NAME": "mbs",
         "USER": "postgres",
         "PASSWORD": "admin",
         "HOST": "localhost",
