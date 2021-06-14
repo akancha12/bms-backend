@@ -16,42 +16,49 @@ class UserSignupSerializer(serializers.ModelSerializer):
     )
     password = serializers.CharField(
         required=True,
-        style={'input_type': 'password'},
+        style={"input_type": "password"},
     )
     confirm_password = serializers.CharField(
         required=True,
-        style={'input_type': 'password'},
+        style={"input_type": "password"},
     )
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'username', 'password', 'confirm_password')
+        fields = (
+            "first_name",
+            "last_name",
+            "email",
+            "username",
+            "password",
+            "confirm_password",
+        )
 
     def validate(self, data):
-        email = data.get('email')
-        username = data.get('username')
-        password = data.get('password')
-        confirm_password = data.get('confirm_password')
+        email = data.get("email")
+        username = data.get("username")
+        password = data.get("password")
+        confirm_password = data.get("confirm_password")
 
         try:
             user = User.objects.filter(email=email)
-        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user:
-            raise ValidationError({'error': 'Email already exists'})
+            raise ValidationError({"error": "Email already exists"})
 
         if len(username) < 5:
-            raise ValidationError({'error': 'Username must have minimum 5 characters'})
+            raise ValidationError({"error": "Username must have minimum 5 characters"})
 
         if password != confirm_password:
-            raise ValidationError({'error': 'Passwords mismatch'})
+            raise ValidationError({"error": "Passwords mismatch"})
 
         try:
             user = User.objects.get(username=username)
-        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user:
-            raise ValidationError({'error': 'Username already exists'})
+            raise ValidationError({"error": "Username already exists"})
 
         return data
 
@@ -60,9 +67,12 @@ class UserSignupSerializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         required=True,
-        style={'input_type': 'password'},
+        style={"input_type": "password"},
     )
 
     class Meta:
         model = User
-        fields = ('username', 'password',)
+        fields = (
+            "username",
+            "password",
+        )
