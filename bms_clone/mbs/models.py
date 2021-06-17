@@ -60,4 +60,4 @@ class ScreenSlotMovieMapping(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('screen', 'slot', 'movie')
+        unique_together = ('screen', 'slot')
