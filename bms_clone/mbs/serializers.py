@@ -22,7 +22,6 @@ class TheatreSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
         required=True,
     )
-    # city = CitySerializer()
     address = serializers.CharField(
         required=True,
     )
@@ -30,6 +29,10 @@ class TheatreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Theatre
         fields = '__all__'
+
+
+class ListTheatreSerializer(TheatreSerializer):
+    city = CitySerializer()
 
 
 class ScreenSerializer(serializers.ModelSerializer):
@@ -40,6 +43,10 @@ class ScreenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Screen
         fields = '__all__'
+
+
+class ListScreenSerializer(ScreenSerializer):
+    theatre = TheatreSerializer()
 
 
 class SeatSerializer(serializers.ModelSerializer):
@@ -53,6 +60,10 @@ class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seats
         fields = '__all__'
+
+
+class ListSeatSerializer(SeatSerializer):
+    screen = ListScreenSerializer()
 
 
 class SlotSerializer(serializers.ModelSerializer):
@@ -79,6 +90,13 @@ class MovieSerializer(serializers.ModelSerializer):
 
 
 class ScreenSlotMovieMappingSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ScreenSlotMovieMapping
         fields = '__all__'
+
+
+class ListScreenSlotMovieMappingSerializer(ScreenSlotMovieMappingSerializer):
+    screen = ListScreenSerializer()
+    slot = SlotSerializer()
+    movie = MovieSerializer()

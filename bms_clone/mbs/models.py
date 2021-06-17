@@ -50,6 +50,7 @@ class Movie(models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class ScreenSlotMovieMapping(models.Model):
     screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
