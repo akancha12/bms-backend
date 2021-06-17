@@ -32,6 +32,14 @@ class TheatreView(viewsets.ModelViewSet):
             return TheatreSerializer
         return ListTheatreSerializer
 
+    @action(methods=['GET'], detail=True)
+    def show(self, request, *args, **kwargs):
+        theatre_id = self.kwargs['pk']
+        screen = Screen.objects.filter(theatre=theatre_id)
+        sms = ScreenSlotMovieMapping.objects.filter(screen__in=screen)
+        serializer = ListScreenSlotMovieMappingSerializer(sms, many=True)
+        return Response(serializer.data)
+
 
 class ScreenView(viewsets.ModelViewSet):
     serializer_class = ScreenSerializer
@@ -65,6 +73,21 @@ class MovieView(viewsets.ModelViewSet):
     serializer_class = MovieSerializer
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Movie.objects.all()
+
+    @action(methods=['GET'], detail=True)
+    def show(self, request, *args, **kwargs):
+        movie_id = self.kwargs['pk']
+        # screen = Screen.objects.filter(theatre=theatre_id)
+        sms = ScreenSlotMovieMapping.objects.filter(movie=movie_id)
+        serializer = ListScreenSlotMovieMappingSerializer(sms, many=True)
+        return Response(serializer.data)
+
+    @action(methods=['GET'], detail=True, url_path='show_city/(?P<city_id>\d+)', url_name='show_city')
+    def show_city(self, request,  city_id, *args, **kwargs):
+        movie_id = self.kwargs['pk']
+        sms = ScreenSlotMovieMapping.objects.filter(movie=movie_id, screen__theatre__city=city_id)
+        serializer = ListScreenSlotMovieMappingSerializer(sms, many=True)
+        return Response(serializer.data)
 
 
 class ScreenSlotMovieMappingView(viewsets.ModelViewSet):
