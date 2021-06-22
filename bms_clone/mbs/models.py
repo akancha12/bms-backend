@@ -32,6 +32,9 @@ class Seats(models.Model):
     index = models.IntegerField(null=False)
     screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('row', 'index', 'screen')
+
     def __str__(self):
         return "seat is %s-%s % (self.row, self.index)"
 
@@ -50,7 +53,11 @@ class Movie(models.Model):
     def __str__(self):
         return str(self.name)
 
+
 class ScreenSlotMovieMapping(models.Model):
     screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('screen', 'slot')
